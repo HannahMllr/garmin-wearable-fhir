@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wearable FHIR Pipeline</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 3rem auto; padding: 0 1rem; color: #1f2933; }
+    code { background: #eef2f6; padding: 0.2rem 0.4rem; border-radius: 4px; word-break: break-all; }
+    .hint { color: #52606d; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>Wearable FHIR Pipeline</h1>
+  <p>Research prototype, University of Lübeck. <a href="privacy-garmin.pdf">Privacy Statement (Garmin, PDF)</a></p>
+  <div id="result"><p class="hint">No authorization data received.</p></div>
+  <script>
+    const p = new URLSearchParams(location.search);
+    const code = p.get("code"), state = p.get("state"), error = p.get("error");
+    const box = document.getElementById("result");
+    if (error) {
+      box.innerHTML = "<p>Authorization failed: <code></code></p>";
+      box.querySelector("code").textContent = error;
+    } else if (code) {
+      box.innerHTML = "<p>Authorization code:</p><p><code id='c'></code></p>" +
+                      "<p>State: <code id='s'></code></p>" +
+                      "<p class='hint'>Copy the code now. It is only valid for a short time.</p>";
+      document.getElementById("c").textContent = code;
+      document.getElementById("s").textContent = state || "-";
+    }
+  </script>
+</body>
+</html>
